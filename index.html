@@ -1,0 +1,646 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>סקסופון מאפס</title>
+<meta name="description" content="מדריך אינטראקטיבי בעברית למתחילים בנגינה בסקסופון אלט — בלי צורך לדעת לקרוא תווים.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#faf6ee; --card:#ffffff; --ink:#1b2433; --muted:#5d6678; --line:#e6dfd0;
+  --navy:#14233d; --brass:#c58a1a; --brass-soft:#f6e8c8; --teal:#1f7a72; --teal-soft:#d8efec;
+  --red:#c0392b; --red-soft:#f9dedb; --radius:16px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'Heebo',system-ui,-apple-system,'Segoe UI',Arial,sans-serif;font-size:17px;line-height:1.7}
+button{font-family:inherit;font-size:inherit;cursor:pointer}
+header.top{background:var(--navy);color:#fff;padding:20px 16px 0}
+.wrap{max-width:980px;margin:0 auto}
+header h1{margin:0;font-size:clamp(1.6rem,4.5vw,2.4rem);font-weight:800;letter-spacing:-.01em}
+header h1 span{color:var(--brass)}
+header p{margin:4px 0 14px;color:#c9d2e3}
+.progress{height:8px;background:#ffffff22;border-radius:8px;overflow:hidden;margin-bottom:12px}
+.progress i{display:block;height:100%;width:0;background:var(--brass);transition:width .4s}
+nav.stages{display:flex;gap:6px;overflow-x:auto;padding-bottom:12px;scrollbar-width:thin}
+nav.stages button{flex:0 0 auto;border:1px solid #ffffff30;background:transparent;color:#dbe3f2;border-radius:999px;padding:6px 14px;white-space:nowrap}
+nav.stages button.on{background:var(--brass);border-color:var(--brass);color:#1b1405;font-weight:700}
+nav.stages button.done::after{content:" ✓"}
+main{padding:20px 16px 60px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:20px;margin:0 0 18px;box-shadow:0 1px 0 #0000000a}
+.card h3{margin:0 0 8px;font-size:1.25rem}
+h2.stage-title{font-size:clamp(1.5rem,4vw,2rem);margin:0 0 4px;font-weight:800}
+.meta{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 18px;color:var(--muted);font-size:.92rem}
+.pill{background:var(--brass-soft);color:#6b4a07;border-radius:999px;padding:2px 12px;font-weight:500}
+.pill.teal{background:var(--teal-soft);color:#0f4c46}
+.goal{background:var(--teal-soft);border-inline-start:5px solid var(--teal);padding:12px 16px;border-radius:10px;margin:0 0 18px}
+.tip{background:var(--brass-soft);border-inline-start:5px solid var(--brass);padding:10px 14px;border-radius:10px;margin:12px 0}
+.warn{background:var(--red-soft);border-inline-start:5px solid var(--red);padding:10px 14px;border-radius:10px;margin:12px 0}
+ul,ol{padding-inline-start:1.4em;margin:.4em 0}
+li{margin:.25em 0}
+table{border-collapse:collapse;width:100%;margin:10px 0;font-size:.95rem}
+th,td{border:1px solid var(--line);padding:8px 10px;text-align:start;vertical-align:top}
+th{background:#f3ecdc}
+.btn{border:0;border-radius:12px;padding:10px 18px;background:var(--navy);color:#fff;font-weight:700}
+.btn.alt{background:var(--brass);color:#1b1405}
+.btn.ghost{background:transparent;color:var(--navy);border:1.5px solid var(--navy)}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.chk{display:flex;gap:10px;align-items:flex-start;padding:8px 10px;border-radius:10px;cursor:pointer}
+.chk:hover{background:#f6f1e4}
+.chk input{margin-top:.45em;width:18px;height:18px;accent-color:var(--teal)}
+.stage-foot{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-top:24px}
+
+/* videos */
+.videos{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+.vid{border:1px solid var(--line);border-radius:14px;overflow:hidden;background:#fff}
+.vid .frame{position:relative;aspect-ratio:16/9;background:#101826 center/cover no-repeat;cursor:pointer;display:grid;place-items:center}
+.vid .frame::after{content:"";width:64px;height:44px;border-radius:12px;background:#c0392bdd;position:absolute}
+.vid .frame::before{content:"";position:absolute;z-index:2;border:10px solid transparent;border-inline-start:16px solid #fff;border-inline-end:0;transform:translateX(-2px)}
+.vid .frame.playing::before,.vid .frame.playing::after{display:none}
+.vid iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.vid .cap{padding:10px 12px;font-size:.92rem}
+.vid .cap b{display:block}
+.vid .cap a{color:var(--teal)}
+
+/* sax */
+.sax-grid{display:grid;grid-template-columns:minmax(0,340px) 1fr;gap:20px;align-items:start}
+@media(max-width:720px){.sax-grid{grid-template-columns:1fr}}
+.sax-grid svg{width:100%;height:auto;max-height:560px;background:#f3ecdc;border-radius:14px}
+.hs{cursor:pointer}
+.hs:hover .shape,.hs.on .shape{stroke:var(--red);stroke-width:3}
+.partlist{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
+.partlist button{border:1px solid var(--line);background:#fff;border-radius:999px;padding:4px 12px}
+.partlist button.on{background:var(--navy);color:#fff;border-color:var(--navy)}
+#partInfo{min-height:110px}
+
+/* breath */
+.breath{display:grid;place-items:center;padding:10px 0}
+.orb{width:110px;height:110px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#f3cf7c,var(--brass));transform:scale(.55);transition:transform 4s ease-in-out;display:grid;place-items:center;color:#1b1405;font-weight:800}
+.breath .label{margin-top:56px;font-size:1.3rem;font-weight:700;min-height:2em}
+
+/* notes */
+.notes-row{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
+.notebtn{border:2px solid var(--line);background:#fff;border-radius:12px;padding:6px 14px;font-weight:700;min-width:68px;text-align:center}
+.notebtn small{display:block;font-weight:400;color:var(--muted)}
+.notebtn.on{border-color:var(--navy);background:#eef2fa}
+.fing-big{display:flex;gap:18px;align-items:center;flex-wrap:wrap}
+.fing-big .nm{font-size:3rem;font-weight:800;line-height:1}
+.fing-big .he{font-size:1.4rem;color:var(--muted)}
+.hand-label{font-size:12px;fill:#5d6678;font-family:inherit}
+.staffwrap svg{max-width:100%;height:auto}
+.game-q{display:flex;gap:18px;align-items:center;flex-wrap:wrap;margin:10px 0}
+.opts{display:flex;gap:8px;flex-wrap:wrap}
+.opts button{border:2px solid var(--line);background:#fff;border-radius:12px;padding:8px 16px;font-weight:700;min-width:64px}
+.opts button.ok{background:var(--teal-soft);border-color:var(--teal)}
+.opts button.no{background:var(--red-soft);border-color:var(--red)}
+.score{color:var(--muted)}
+
+/* song */
+.song{display:flex;flex-wrap:wrap;gap:6px;margin:12px 0;align-items:stretch}
+.sn{border:2px solid var(--line);border-radius:12px;background:#fff;padding:6px 4px;text-align:center;flex:0 0 auto;transition:.1s}
+.sn b{display:block;font-size:1.15rem}
+.sn small{color:var(--muted)}
+.sn.on{background:var(--brass);border-color:#8a5f0d;transform:translateY(-4px);box-shadow:0 6px 14px #0003}
+.sn.on small{color:#2a1c03}
+.bar{width:2px;background:var(--line);margin:0 4px;border-radius:2px}
+.tempo{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+input[type=range]{accent-color:var(--brass)}
+.dur{display:flex;gap:10px;flex-wrap:wrap}
+.dur div{border:1px solid var(--line);border-radius:12px;padding:8px 12px;background:#fff;min-width:130px}
+.beatbar{display:flex;gap:3px;margin-top:6px;direction:ltr}
+.beatbar i{height:12px;border-radius:4px;background:var(--brass);width:26px}
+
+/* quiz */
+.q{margin:14px 0}
+.q .opts button{text-align:start}
+.why{margin-top:6px;font-size:.95rem;color:var(--muted)}
+.timer-big{font-size:2.6rem;font-weight:800;font-variant-numeric:tabular-nums;direction:ltr;display:inline-block}
+.bar-goal{height:14px;background:#efe7d4;border-radius:10px;overflow:hidden;margin:8px 0}
+.bar-goal i{display:block;height:100%;width:0;background:var(--teal);transition:width .2s}
+footer{max-width:980px;margin:0 auto;padding:0 16px 40px;color:var(--muted);font-size:.9rem}
+.kbd{background:#fff;border:1px solid var(--line);border-radius:6px;padding:0 6px;font-size:.9em}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <h1>סקסופון <span>מאפס</span> 🎷</h1>
+    <p>מדריך אינטראקטיבי למתחילות בסקסופון אלט — בלי צורך לדעת לקרוא תווים</p>
+    <div class="progress" aria-label="התקדמות"><i id="pbar"></i></div>
+    <nav class="stages" id="nav" aria-label="שלבים"></nav>
+  </div>
+</header>
+<main class="wrap" id="stage"><noscript>המדריך דורש JavaScript.</noscript></main>
+<footer>
+  <p>המדריך מתאים לסקסופון <b>אלט</b> (Eb). הצלילים באתר הם הדמיה סינתטית של גובה הצליל שיישמע מהכלי, לא הקלטה של סקסופון אמיתי. הסרטונים הם סרטוני YouTube באנגלית של יוצרים חיצוניים; נבחרו לפי תוצאות חיפוש ולא נצפו במלואם, ולכן כדאי להציץ בהם לפני ההמלצה הלאה. אין תחליף לשיעור אחד-על-אחד עם מורה, במיוחד לתיקון תנוחה ופיה.</p>
+</footer>
+
+<script>
+/* ============ נתונים ============ */
+const NOTES = {
+  D:{he:'רה', midi:62, pos:-1, L:[1,1,1], R:[1,1,1]},
+  E:{he:'מי', midi:64, pos:0,  L:[1,1,1], R:[1,1,0]},
+  F:{he:'פה', midi:65, pos:1,  L:[1,1,1], R:[1,0,0]},
+  G:{he:'סול',midi:67, pos:2,  L:[1,1,1], R:[0,0,0]},
+  A:{he:'לה', midi:69, pos:3,  L:[1,1,0], R:[0,0,0]},
+  B:{he:'סי', midi:71, pos:4,  L:[1,0,0], R:[0,0,0]},
+  C:{he:'דו', midi:72, pos:5,  L:[0,1,0], R:[0,0,0]},
+};
+const ORDER = ['D','E','F','G','A','B','C'];
+// אלט = Eb: הצליל נשמע 9 חצאי טון מתחת לתו הכתוב
+const freq = n => 440*Math.pow(2,(NOTES[n].midi-9-69)/12);
+
+const SONGS = {
+  hot:{ name:'Hot Cross Buns', note:'מנגינה עממית. שלושה צלילים בלבד.', bpm:80,
+    seq:[['B',2],['A',2],['G',4],'|',['B',2],['A',2],['G',4],'|',['G',1],['G',1],['G',1],['G',1],['A',1],['A',1],['A',1],['A',1],'|',['B',2],['A',2],['G',4]]},
+  mary:{ name:'מרי והכבשה (גרסה פשוטה)', note:'Mary Had a Little Lamb — בגרסה שמסתפקת בשלושה צלילים.', bpm:84,
+    seq:[['B',1],['A',1],['G',1],['A',1],'|',['B',1],['B',1],['B',2],'|',['A',1],['A',1],['A',2],'|',['B',1],['B',1],['B',2]]},
+  clair:{ name:'Au clair de la lune', note:'מנגינה צרפתית עממית, מוכרת בעברית כ״לאור הירח״ (שלושה צלילים).', bpm:76,
+    seq:[['G',1],['G',1],['G',1],['A',1],'|',['B',2],['A',2],'|',['G',1],['B',1],['A',1],['A',1],'|',['G',4]]},
+  scale:{ name:'סולם: סול–דו ובחזרה', note:'מחממים אצבעות: למעלה ולמטה.', bpm:70,
+    seq:[['G',1],['A',1],['B',1],['C',1],'|',['C',1],['B',1],['A',1],['G',1]]},
+  low:{ name:'תרגיל צלילים נמוכים', note:'סול–פה–מי–רה ובחזרה. היד הימנית נכנסת לעבודה.', bpm:60,
+    seq:[['G',1],['F',1],['E',1],['D',2],'|',['D',1],['E',1],['F',1],['G',2]]},
+  all:{ name:'שביל הצלילים', note:'כל הצלילים שלמדת, בקפיצות קטנות.', bpm:64,
+    seq:[['G',1],['B',1],['A',1],['C',1],'|',['B',1],['A',1],['G',1],['F',1],'|',['E',1],['F',1],['G',1],['D',1],'|',['G',4]]},
+};
+
+const VIDEOS = {
+  assemble:[
+    {id:'Ett8eG-3Ie4', t:'Alto Sax Beginner Lesson – How to Put the Sax Together', d:'הרכבה צעד אחר צעד.'},
+    {id:'zjhiGxRbiRU', t:'Alto Sax Beginner Lesson: Reed, Mouthpiece & Neck', d:'דגש על הקנה, הפייה והצוואר.'},
+  ],
+  embouchure:[
+    {id:'4Nilvdq_W1s', t:'Saxophone Embouchure for Beginners', d:'מיקום הפה והשפתיים על הפייה.'},
+    {id:'LjAsDxeW29c', t:'Saxophone Embouchure – Correct Mouth Placement', d:'עוד זווית על מיקום הפה.'},
+  ],
+  first:[
+    {id:'IygRcn-x9uw', t:'First saxophone lesson 1 – everything you need to know', d:'שיעור ראשון מקיף כולל צלילים ראשונים.'},
+    {id:'e_49QuIGtfU', t:'How To Make Your First Saxophone Sounds', d:'טיפים להפקת צליל ראשון.'},
+  ],
+  notes:[
+    {id:'J-ljRpzlfsA', t:'First Notes On Saxophone: G, A and B', d:'שלושת הצלילים הראשונים.'},
+    {id:'LF2d7H4bEPE', t:'Saxophone Basics, First Notes B A G', d:'עוד הסבר על סי-לה-סול.'},
+  ],
+  more:[
+    {id:'GbM7EszlDFw', t:'Learn the First 5 Notes on Alto Sax', d:'חמשת הצלילים הראשונים באלט.'},
+    {id:'GqibWCYI-88', t:'How to use a saxophone fingering chart', d:'איך משתמשים בטבלת אצבעות.'},
+  ],
+};
+
+/* ============ עזרים ============ */
+const $ = (s,r=document)=>r.querySelector(s);
+const $$ = (s,r=document)=>[...r.querySelectorAll(s)];
+let STATE={done:{},checks:{},best:0};
+try{ STATE=Object.assign(STATE,JSON.parse(localStorage.getItem('sax-he')||'{}')); }catch(e){}
+const save=()=>{ try{localStorage.setItem('sax-he',JSON.stringify(STATE));}catch(e){} };
+
+function videoGrid(list){
+  return `<div class="videos">${list.map(v=>`
+    <div class="vid">
+      <div class="frame" data-vid="${v.id}" style="background-image:url('https://i.ytimg.com/vi/${v.id}/hqdefault.jpg')" role="button" tabindex="0" aria-label="נגן: ${v.t}"></div>
+      <div class="cap"><b dir="ltr" style="text-align:start">${v.t}</b>${v.d} · <a href="https://www.youtube.com/watch?v=${v.id}" target="_blank" rel="noopener">פתחי ביוטיוב</a></div>
+    </div>`).join('')}</div>
+  <p class="score">הסרטונים באנגלית. אם סרטון לא נטען — הקישור "פתחי ביוטיוב" מוביל אליו ישירות.</p>`;
+}
+function checklist(prefix, items){
+  return items.map((t,i)=>`<label class="chk"><input type="checkbox" data-chk="${prefix}${i}"><span>${t}</span></label>`).join('');
+}
+
+/* ============ שמע ============ */
+let AC=null, active=new Set();
+const ctx=()=>{ if(!AC) AC=new (window.AudioContext||window.webkitAudioContext)(); if(AC.state==='suspended') AC.resume(); return AC; };
+function tone(f,dur,when=0){
+  const a=ctx(), t=a.currentTime+when;
+  const g=a.createGain(), lp=a.createBiquadFilter();
+  lp.type='lowpass'; lp.frequency.value=Math.min(2200,f*6); lp.Q.value=2;
+  const o1=a.createOscillator(), o2=a.createOscillator();
+  o1.type='sawtooth'; o2.type='square'; o1.frequency.value=f; o2.frequency.value=f*1.004;
+  const g2=a.createGain(); g2.gain.value=.35;
+  o1.connect(lp); o2.connect(g2); g2.connect(lp); lp.connect(g); g.connect(a.destination);
+  g.gain.setValueAtTime(0,t); g.gain.linearRampToValueAtTime(.16,t+.05);
+  g.gain.setValueAtTime(.16,t+Math.max(.06,dur-.08)); g.gain.linearRampToValueAtTime(0,t+dur);
+  o1.start(t); o2.start(t); o1.stop(t+dur+.02); o2.stop(t+dur+.02);
+  const h={o1,o2,g}; active.add(h); o1.onended=()=>active.delete(h);
+  return h;
+}
+function click(accent,when=0){
+  const a=ctx(), t=a.currentTime+when, o=a.createOscillator(), g=a.createGain();
+  o.frequency.value=accent?1500:1000; o.connect(g); g.connect(a.destination);
+  g.gain.setValueAtTime(.25,t); g.gain.exponentialRampToValueAtTime(.001,t+.06);
+  o.start(t); o.stop(t+.07);
+}
+function stopAll(){ active.forEach(h=>{try{h.o1.stop();h.o2.stop();}catch(e){}}); active.clear(); }
+const playNote=(n,d=1.2)=>tone(freq(n),d);
+
+/* ============ ציורים ============ */
+function fingerSVG(n, w=84, labels=false){
+  const N=NOTES[n], ys=[18,44,70], ys2=[112,138,164], H=labels?200:190;
+  const dot=(y,on)=>`<circle cx="42" cy="${y}" r="13" fill="${on?'#14233d':'#fff'}" stroke="#14233d" stroke-width="2.5"/>`;
+  return `<svg dir="ltr" viewBox="0 0 84 ${H}" width="${w}" height="${w*H/84}" role="img" aria-label="אצבעות לצליל ${n}">
+    <rect x="22" y="2" width="40" height="${H-12}" rx="20" fill="#f6e8c8" opacity=".7"/>
+    ${ys.map((y,i)=>dot(y,N.L[i])).join('')}
+    ${ys2.map((y,i)=>dot(y,N.R[i])).join('')}
+    ${labels?`<text class="hand-label" x="4" y="44" transform="rotate(-90 12 44)" text-anchor="middle">שמאל</text><text class="hand-label" x="4" y="138" transform="rotate(-90 12 138)" text-anchor="middle">ימין</text>`:''}
+  </svg>`;
+}
+function staffSVG(highlight, all=false){
+  // E4 = קו תחתון (pos 0). כל pos = 8px. ללא סמל מפתח: מסמנים את קו הסול.
+  const W=all?560:150, H=130, y=p=>96-p*8;
+  let s=`<svg dir="ltr" viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" role="img" aria-label="חמשה">`;
+  for(let i=0;i<5;i++){ const yy=y(i*2), g=i===1; s+=`<line x1="10" x2="${W-10}" y1="${yy}" y2="${yy}" stroke="${g?'#c0392b':'#1b2433'}" stroke-width="${g?2.2:1.4}"/>`; }
+  s+=`<text x="12" y="${y(2)-4}" font-size="11" fill="#c0392b" font-family="Heebo,sans-serif">קו הסול</text>`;
+  const list = all?ORDER:[highlight];
+  list.forEach((n,i)=>{
+    const cx = all? 100+i*70 : 80, cy=y(NOTES[n].pos), hl = all && n===highlight;
+    s+=`<g data-staffnote="${n}" style="cursor:pointer"><rect x="${cx-26}" y="0" width="52" height="${H}" fill="transparent"/>`;
+    if(NOTES[n].pos<0){} // רה: מתחת לקו התחתון, ללא קו עזר
+    s+=`<ellipse cx="${cx}" cy="${cy}" rx="9" ry="6.5" transform="rotate(-18 ${cx} ${cy})" fill="${hl||!all?'#14233d':'#5d6678'}"/>`;
+    const up = NOTES[n].pos<4;
+    s+= up? `<line x1="${cx+8}" x2="${cx+8}" y1="${cy-1}" y2="${cy-30}" stroke="${hl||!all?'#14233d':'#5d6678'}" stroke-width="2"/>`
+          : `<line x1="${cx-8}" x2="${cx-8}" y1="${cy+1}" y2="${cy+30}" stroke="${hl||!all?'#14233d':'#5d6678'}" stroke-width="2"/>`;
+    if(all) s+=`<text x="${cx}" y="${H-4}" text-anchor="middle" font-size="12" font-weight="700" fill="#1b2433" font-family="Heebo,sans-serif">${n} · ${NOTES[n].he}</text>`;
+    s+='</g>';
+  });
+  return s+'</svg>';
+}
+
+/* ============ רכיבים ============ */
+function quiz(id, qs){
+  return `<div class="card" data-quiz="${id}"><h3>🧠 בדיקה קטנה</h3>${qs.map((q,i)=>`
+    <div class="q" data-i="${i}"><b>${q.q}</b><div class="opts" style="margin-top:6px">${q.o.map((o,j)=>`<button data-a="${j}">${o}</button>`).join('')}</div><div class="why" hidden>${q.w}</div></div>`).join('')}
+    <div class="score" data-score></div></div>`;
+}
+function wireQuiz(root,id,qs){
+  const box=$(`[data-quiz="${id}"]`,root); if(!box) return; let ok=0, n=0;
+  $$('.q',box).forEach(qe=>{
+    const q=qs[+qe.dataset.i];
+    $$('button',qe).forEach(b=>b.onclick=()=>{
+      if(qe.dataset.done) return; qe.dataset.done=1; n++;
+      const c=+b.dataset.a===q.a; if(c) ok++;
+      b.classList.add(c?'ok':'no'); if(!c) $$('button',qe)[q.a].classList.add('ok');
+      $('.why',qe).hidden=false;
+      $('[data-score]',box).textContent=`ענית נכון על ${ok} מתוך ${n}`+(n===qs.length?(ok===qs.length?' — מעולה! 🎉':' — שווה לקרוא שוב את ההסברים.'):'');
+    });
+  });
+}
+
+function songPlayer(key){
+  const S=SONGS[key];
+  const cards=S.seq.map(x=>x==='|'?'<div class="bar"></div>':
+    `<div class="sn" data-n="${x[0]}" style="width:${Math.min(x[1],4)*52+ (x[1]>1?0:0)+30}px">${fingerSVG(x[0],46)}<b>${x[0]}</b><small>${NOTES[x[0]].he}${x[1]>1?` · ${x[1]} פעימות`:''}</small></div>`).join('');
+  return `<div class="card" data-song="${key}"><h3>${S.name}</h3><p class="score">${S.note}</p>
+    <div class="song">${cards}</div>
+    <div class="tempo"><button class="btn alt" data-act="play">▶ נגן הדגמה</button><button class="btn ghost" data-act="stop">■ עצור</button>
+    <label>קצב: <input type="range" min="40" max="120" value="${S.bpm}" data-bpm> <span data-bpmv>${S.bpm}</span> פעימות בדקה</label></div>
+    <p class="score" style="margin-bottom:0">איך לתרגל: 1) הסתכלי ובצעי רק את האצבעות בלי לנשוף. 2) נגני לאט עם ההדגמה. 3) הורידי קצב והעלי בהדרגה. לפני תחילת ההדגמה יש ספירה של 4 פעימות.</p></div>`;
+}
+function wireSong(root){
+  $$('[data-song]',root).forEach(box=>{
+    const S=SONGS[box.dataset.song]; let timers=[];
+    const range=$('[data-bpm]',box), lab=$('[data-bpmv]',box);
+    range.oninput=()=>lab.textContent=range.value;
+    const cardsEls=$$('.sn',box);
+    const stop=()=>{timers.forEach(clearTimeout);timers=[];stopAll();cardsEls.forEach(c=>c.classList.remove('on'));};
+    $('[data-act=stop]',box).onclick=stop;
+    $('[data-act=play]',box).onclick=()=>{
+      stop(); const beat=60/+range.value; ctx();
+      for(let i=0;i<4;i++) click(i===0,i*beat);
+      let t=4*beat, k=0;
+      S.seq.forEach(x=>{ if(x==='|') return;
+        const el=cardsEls[k++], d=x[1]*beat;
+        tone(freq(x[0]),d*.92,t);
+        timers.push(setTimeout(()=>{cardsEls.forEach(c=>c.classList.remove('on'));el.classList.add('on');},t*1000));
+        t+=d;
+      });
+      timers.push(setTimeout(stop,t*1000+100));
+    };
+  });
+}
+
+function fingeringGame(root){
+  const box=$('[data-game]',root); if(!box) return;
+  const pool = box.dataset.game.split('');
+  let cur, mode='fing', ok=0, tot=0;
+  const q=$('.game-q .visual',box), opts=$('.opts',box), sc=$('.score',box);
+  opts.innerHTML=pool.map(n=>`<button data-o="${n}">${n} · ${NOTES[n].he}</button>`).join('');
+  const next=()=>{
+    const old=cur; do{cur=pool[Math.floor(Math.random()*pool.length)];}while(cur===old&&pool.length>1);
+    q.innerHTML = mode==='fing'? fingerSVG(cur,72) : staffSVG(cur);
+    $$('button',opts).forEach(b=>b.className='');
+  };
+  $$('[data-mode]',box).forEach(b=>b.onclick=()=>{mode=b.dataset.mode;$$('[data-mode]',box).forEach(x=>x.classList.toggle('alt',x===b));next();});
+  $$('button',opts).forEach(b=>b.onclick=()=>{
+    const c=b.dataset.o===cur; tot++; if(c)ok++;
+    b.classList.add(c?'ok':'no'); sc.textContent=`נכון ${ok} מתוך ${tot}`;
+    if(c){playNote(cur,.7);setTimeout(next,700);} 
+  });
+  $('[data-mode=fing]',box).classList.add('alt'); next();
+}
+
+/* ============ השלבים ============ */
+const STAGES=[
+{ t:'ברוכה הבאה', min:10, html:()=>`
+  <div class="goal"><b>מטרת השלב:</b> להבין איך המדריך בנוי ולוודא שיש לך את כל מה שצריך לפני שנוגעים בכלי.</div>
+  <div class="card"><h3>איך עובדים עם המדריך</h3>
+    <ol><li>עוברות שלב אחרי שלב. בכל שלב: הסבר קצר, הדמיה אינטראקטיבית, סרטון, תרגיל ובדיקה קטנה.</li>
+    <li>לא צריך לדעת תווים: בהתחלה לומדים לפי <b>שם הצליל</b> ו<b>דיאגרמת אצבעות</b>. בשלב 8 מכירים בעדינות איך נראה תו על חמשה, כדי שיהיה בסיס להמשך.</li>
+    <li>15–20 דקות ביום עדיפות על שעתיים פעם בשבוע. התקדמות נשמרת בדפדפן.</li></ol></div>
+  <div class="card"><h3>מה צריך</h3>${checklist('s1a',[
+    '<b>סקסופון אלט</b> עם פייה, קנה (reed) וקולר (ligature). לרוב מתחילים באלט — קל וקטן יותר מטנור ומתאים לרוב הגדלים.',
+    '<b>רצועת צוואר</b> (strap) — בלי רצועה הידיים לא יכולות להחזיק את הכלי.',
+    '<b>קנים</b> בחוזק 2 או 2.5 — החוזק המקובל למתחילים. קנה חזק מדי = קשה להפיק צליל. כדאי לשאול בחנות/מורה.',
+    '<b>מטלית ניקוי</b> (swab) לצינור, ושמן/משחה לפקק של הצוואר (cork grease).',
+    '<b>מקום שקט</b>, כיסא יציב בלי ידיות, ומראה קטנה לבדיקת תנוחה.',
+    'אופציונלי אבל מומלץ: <b>טיונר/אפליקציית כוונון</b> ומורה לשיעור או שניים לפחות.'])}</div>
+  <div class="warn"><b>לפני הכול:</b> אם הכלי שאולה/משומשת, כדאי שטכנאי כלי נשיפה יבדוק שהכריות (pads) אוטמות. כלי שדולף אוויר לא ינגן כמו שצריך, ותחשבי שהבעיה בך.</div>`,
+  quiz:[{q:'איזה סוג סקסופון מתאים לרוב המתחילים?',o:['סופרן','אלט','בריטון'],a:1,w:'אלט — גודל נוח ושימוש נרחב בחומרי לימוד.'},
+        {q:'חוזק קנה מומלץ למתחילה:',o:['1.5 עד 2','2 עד 2.5','4 ומעלה'],a:1,w:'חוזק 2–2.5 הוא כלל האצבע המקובל; חזק יותר דורש פיה ושרירי פה מפותחים.'}]},
+
+{ t:'הכירי את הכלי', min:10, html:()=>`
+  <div class="goal"><b>מטרת השלב:</b> לדעת לקרוא בשם כל חלק בסקסופון ולהבין מה הוא עושה.</div>
+  <div class="card"><div class="sax-grid">
+    <svg viewBox="0 0 360 520" id="saxsvg" role="img" aria-label="איור סקסופון מסוכם">
+      <g class="hs" data-part="mouthpiece"><path class="shape" d="M262 58 L304 28" stroke="#14233d" stroke-width="20" stroke-linecap="round" fill="none"/></g>
+      <g class="hs" data-part="reed"><path class="shape" d="M268 66 L300 42" stroke="#d9b16b" stroke-width="5" stroke-linecap="round" fill="none"/></g>
+      <g class="hs" data-part="lig"><rect class="shape" x="270" y="44" width="14" height="22" rx="3" transform="rotate(-36 277 55)" fill="#8d96a8" stroke="#5d6678"/></g>
+      <g class="hs" data-part="neck"><path class="shape" d="M258 62 Q212 72 204 126" stroke="#c58a1a" stroke-width="22" stroke-linecap="round" fill="none"/></g>
+      <g class="hs" data-part="body"><line class="shape" x1="195" y1="120" x2="195" y2="385" stroke="#d9a42a" stroke-width="42" stroke-linecap="round"/></g>
+      <g class="hs" data-part="bell"><path class="shape" d="M195 380 Q195 462 262 470" stroke="#d9a42a" stroke-width="42" stroke-linecap="round" fill="none"/><ellipse cx="268" cy="468" rx="12" ry="26" fill="#a87410" opacity=".6"/></g>
+      <g class="hs" data-part="octave"><rect class="shape" x="166" y="128" width="16" height="12" rx="4" fill="#fff" stroke="#14233d" stroke-width="2"/></g>
+      <g class="hs" data-part="left">${[170,205,240].map(y=>`<circle class="shape" cx="195" cy="${y}" r="12" fill="#fff" stroke="#14233d" stroke-width="2.5"/>`).join('')}</g>
+      <g class="hs" data-part="right">${[290,322,354].map(y=>`<circle class="shape" cx="195" cy="${y}" r="12" fill="#fff" stroke="#14233d" stroke-width="2.5"/>`).join('')}</g>
+      <g class="hs" data-part="thumbrest"><rect class="shape" x="150" y="178" width="14" height="32" rx="6" fill="#14233d" opacity=".75"/></g>
+      <g class="hs" data-part="thumbhook"><path class="shape" d="M164 292 q-18 0 -18 14 q0 14 18 14" fill="none" stroke="#14233d" stroke-width="6" stroke-linecap="round"/></g>
+      <g class="hs" data-part="strap"><circle class="shape" cx="226" cy="150" r="8" fill="#fff" stroke="#14233d" stroke-width="3"/></g>
+    </svg>
+    <div><div class="partlist" id="partlist"></div><div class="tip" id="partInfo">בחרי חלק כדי לקרוא עליו.</div>
+    <p class="score">האיור סכמטי ומפושט. חלק מהמפתחות (thumb rest, thumb hook) נמצאים בגב הכלי.</p></div>
+  </div></div>`,
+  init:(root)=>{
+    const P={
+      mouthpiece:['פייה (Mouthpiece)','כאן נכנס הפה. הצליל נוצר מרטט הקנה כנגד הפייה. הפייה נדחפת על פקק הצוואר.'],
+      reed:['קנה (Reed)','פיסת קנה דקה שמרטטת כשנושפים. נצמד לצד השטוח של הפייה. עדין ושביר — מרטיבים לפני נגינה ושומרים בנרתיק.'],
+      lig:['קולר (Ligature)','המהדק שמחזיק את הקנה על הפייה. מהדקים בעדינות, מספיק שהקנה יציב.'],
+      neck:['צוואר (Neck)','חלק מעוקל שמחבר פייה לגוף. נכנס לגוף ונעול בבורג. מחזיקים אותו מלמטה כשמרכיבים, לא בכוח.'],
+      body:['גוף (Body)','הצינור הראשי עם כל המפתחות. כאן האצבעות פוגשות את הכלי.'],
+      bell:['פעמון (Bell)','הקצה התחתון המתרחב. את הצלילים הנמוכים ביותר מפיקים בעזרת מפתחות ליד הפעמון.'],
+      octave:['מפתח אוקטבה (Octave key)','מפתח האגודל השמאלית שמעביר לצלילים גבוהים. לא תצטרכי אותו בשלבים הראשונים.'],
+      left:['מפתחות יד שמאל','האצבעות 1-2-3 של יד שמאל: מפעילות את הצלילים סי (אצבע 1), לה (2), סול (3).'],
+      right:['מפתחות יד ימין','האצבעות 1-2-3 של יד ימין מוסיפות את הצלילים הנמוכים: פה, מי, רה.'],
+      thumbrest:['משענת אגודל שמאל (Thumb rest)','האגודל השמאלית נח מתחת/על המשענת מאחור, כך האחיזה יציבה.'],
+      thumbhook:['וו אגודל ימין (Thumb hook)','האגודל הימנית נתמכת כאן ומשאירה את האצבעות חופשיות לזוז.'],
+      strap:['טבעת הרצועה (Strap ring)','הרצועה מתחברת כאן וסוחבת את משקל הכלי על הצוואר, כדי שהידיים לא יישאו אותו.'],
+    };
+    const list=$('#partlist',root), info=$('#partInfo',root);
+    list.innerHTML=Object.entries(P).map(([k,v])=>`<button data-p="${k}">${v[0].split(' (')[0]}</button>`).join('');
+    const pick=k=>{ $$('[data-p]',root).forEach(b=>b.classList.toggle('on',b.dataset.p===k)); $$('.hs',root).forEach(g=>g.classList.toggle('on',g.dataset.part===k));
+      info.innerHTML=`<b>${P[k][0]}</b><br>${P[k][1]}`; };
+    $$('[data-p]',root).forEach(b=>b.onclick=()=>pick(b.dataset.p));
+    $$('.hs',root).forEach(g=>g.onclick=()=>pick(g.dataset.part));
+  },
+  quiz:[{q:'מה גורם להפקת הצליל?',o:['רטט הקנה על הפייה','רטט המפתחות','האוויר שיוצא מהפעמון'],a:0,w:'הקנה מרטט כנגד הפייה, והגוף קובע את גובה הצליל.'},
+        {q:'מה תפקיד הרצועה?',o:['קישוט','לשאת את משקל הכלי','לכוון את הצליל'],a:1,w:'הרצועה מורידה עומס מהידיים והאגודלים.'}]},
+
+{ t:'הרכבה', min:15, html:()=>`
+  <div class="goal"><b>מטרת השלב:</b> להרכיב ולפרק את הסקסופון בביטחון ובלי לפגוע במפתחות.</div>
+  <div class="card"><h3>הרכבה צעד אחר צעד</h3>${checklist('s3a',[
+    'לחבר את הרצועה על הצוואר ואז לתלות את הכלי על הוו שלה (כלי יציב = פחות פחד להפיל).',
+    'להחזיק את <b>הגוף</b> בבטחה ולהכניס את <b>הצוואר</b> עם תנועת סיבוב קלה, בלי ללחוץ על המפתחות. להדק את בורג הצוואר.',
+    'למרוח מעט שמן על פקק הצוואר אם הפייה נתקעת.',
+    'להרטיב את <b>הקנה</b> בפה או במים כחצי דקה.',
+    'לחבר את הקנה על הפייה: הצד השטוח לפייה, קצה הקנה מיושר עם קצה הפייה. את הקולר להחליק מלמעלה ולהדק קלות.',
+    'לדחוף את הפייה על הפקק בערך עד האמצע, בתנועת סיבוב קלה. הכוונון המדויק יבוא בהמשך.',
+    'אחרי הנגינה: להסיר את הקנה, לייבש, לשים בנרתיק; להעביר מטלית בפייה ובגוף.'])}
+  <div class="warn">רוב הנזקים לכלי קורים בהרכבה: לחיצה על מפתחות, הפעלת כוח על הצוואר, או נשיאת הכלי מהצוואר. אם משהו לא נכנס — עצרי ובדקי, אל תכריחי.</div></div>
+  <div class="card"><h3>🎬 סרטונים</h3>${videoGrid(VIDEOS.assemble)}</div>`,
+  quiz:[{q:'איזה צד של הקנה צמוד לפייה?',o:['השטוח','המעוגל','לא משנה'],a:0,w:'הצד השטוח נצמד לשולחן הפייה, והצד המעוגל פונה לשפה.'},
+        {q:'מה עושים לקנה אחרי הנגינה?',o:['משאירים על הפייה','מוציאים, מייבשים ומאחסנים','זורקים'],a:1,w:'קנה שנשאר רטוב על הפייה מתעוות ומתקלקל מהר יותר.'}]},
+
+{ t:'תנוחה ואחיזה', min:10, html:()=>`
+  <div class="goal"><b>מטרת השלב:</b> לעמוד/לשבת בנוחות, להחזיק את הכלי נכון ולדעת איפה כל אצבע.</div>
+  <div class="card"><h3>תנוחה</h3><ul>
+    <li>גב ישר ונינוח, כתפיים רפויות. אם יושבים — על קצה הכיסא.</li>
+    <li>הרצועה מתכווננת כך שהפייה מגיעה אליך, <b>ולא את אליה</b>: אין כיפוף ראש או הרמת סנטר.</li>
+    <li>הכלי מונח מעט לימין הגוף, והפעמון פונה קדימה-ימינה.</li></ul></div>
+  <div class="card"><h3>הידיים</h3><table>
+    <tr><th>יד</th><th>מיקום</th><th>אצבעות</th></tr>
+    <tr><td>שמאל (למעלה)</td><td>אגודל במשענת האגודל (מאחור), קרוב למפתח האוקטבה</td><td>אצבע 1 סי · 2 לה · 3 סול</td></tr>
+    <tr><td>ימין (למטה)</td><td>אגודל מתחת לוו האגודל</td><td>אצבע 1 פה · 2 מי · 3 רה</td></tr></table>
+    <div class="tip">האצבעות מכסות את המפתחות בבסיס הכרית, מעוגלות וקלות. לא צריך ללחוץ חזק: מספיק לכסות את המפתח לגמרי. אצבעות שמכסות רק חלק מהכרית גורמות לצליל אוורירי או חורק.</div></div>
+  <div class="card"><h3>✔ תרגיל 2 דקות</h3>${checklist('s4a',['לעמוד מול מראה ולבדוק שהכלי לא מושך את הראש.','להניח את האצבעות על המפתחות, בלי להחזיק את הכלי בכוח, ולהרגיש את המשקל על הרצועה.','לפתוח ולסגור אצבעות בעדינות (רק מגע), 10 פעמים.'])}</div>`,
+  quiz:[{q:'איזו יד מופעלת למעלה בגוף הכלי?',o:['שמאל','ימין','שתיהן'],a:0,w:'יד שמאל למעלה: סי, לה, סול.'},
+        {q:'מה מתכוונן כדי לא להוריד את הראש?',o:['הרצועה','המפתחות','הקנה'],a:0,w:'הרצועה מכוונת גובה הפייה.'}]},
+
+{ t:'נשימה ופיה', min:20, html:()=>`
+  <div class="goal"><b>מטרת השלב:</b> לנשום מהסרעפת, לבנות פיה יציבה ולהפיק צליל על הפייה לבד.</div>
+  <div class="card"><h3>🌬 מאמן נשימה</h3><p>שאפי דרך הפה ופני בטן כלפי חוץ, נשפי באיטיות ובשליטה.</p>
+    <div class="breath"><div class="orb" id="orb">🎷</div><div class="label" id="blabel">מוכנה?</div></div>
+    <div class="row" style="justify-content:center"><select id="bmode"><option value="4,8">שאיפה 4 · נשיפה 8</option><option value="4,12">שאיפה 4 · נשיפה 12</option><option value="3,6">קל: 3 · 6</option></select>
+    <button class="btn alt" id="bstart">התחילי</button><button class="btn ghost" id="bstop">עצרי</button></div><p class="score" style="text-align:center" id="bcount"></p></div>
+  <div class="card"><h3>הפיה (embouchure)</h3><ol>
+    <li>שיניים עליונות נוגעות בפייה, בערך 1–1.5 ס״מ מהקצה (כלל אצבע).</li>
+    <li>שפה תחתונה מקופלת מעט מעל השיניים התחתונות, כמו כרית לקנה.</li>
+    <li>זוויות הפה סגורות, כמו מילת "או" ללא עיגול גדול; הלחיים לא מנופחות.</li>
+    <li>הנשיפה חמה, יציבה ומלאה, כמו שמנשפים על חלון כדי להחשיך אותו.</li></ol>
+    <div class="warn">אם השיניים העליונות כואבות — אפשר לשים מגן שיניים קטן (patch) על הפייה.</div></div>
+  <div class="card"><h3>✔ תרגיל: פייה לבד</h3>${checklist('s5a',['להניח רק את הפייה והקנה (בלי הצוואר), לנשוף ולהפיק צליל. מטרה: צליל יציב ושקט, לא חריקה.','אם הצליל חריקה — פחות לחיצה בשפה; אם אין צליל — יותר אוויר ובדקי יישור הקנה.','להפיק צליל של 5 שניות, חמש פעמים.','להוסיף את הצוואר ולחזור על התרגיל.'])}
+    <div class="tip">אצל רוב הנגנים, פייה בלבד של אלט נשמעת בערך כמו צליל גבוה בסביבת לה (A). אם הצליל רחוק מאוד מזה, כדאי שמורה יבדוק את מיקום הפייה על הפקק ואת הקנה.</div></div>
+  <div class="card"><h3>🎬 סרטונים</h3>${videoGrid(VIDEOS.embouchure)}</div>`,
+  init:(root)=>{
+    let on=false, tm=[];
+    const orb=$('#orb',root), lab=$('#blabel',root), cnt=$('#bcount',root); let cycles=0;
+    const clear=()=>{tm.forEach(clearTimeout);tm=[];};
+    function cycle(){
+      if(!on) return; const [i,e]=$('#bmode',root).value.split(',').map(Number);
+      lab.textContent='שאיפה…'; orb.style.transitionDuration=i+'s'; orb.style.transform='scale(1)';
+      tm.push(setTimeout(()=>{ if(!on)return; lab.textContent='נשיפה איטית…'; orb.style.transitionDuration=e+'s'; orb.style.transform='scale(.55)';
+        tm.push(setTimeout(()=>{cycles++;cnt.textContent='מחזורים: '+cycles;cycle();},e*1000)); },i*1000));
+    }
+    $('#bstart',root).onclick=()=>{ if(on) return; on=true; cycles=0; cycle(); };
+    $('#bstop',root).onclick=()=>{ on=false; clear(); lab.textContent='אפשר לנוח.'; orb.style.transitionDuration='1s'; orb.style.transform='scale(.55)'; };
+    window.__cleanup=()=>{on=false;clear();};
+  },
+  quiz:[{q:'איפה מניחים את השיניים העליונות?',o:['על הפייה','על הקנה','על הקולר'],a:0,w:'השיניים העליונות נוגעות בפייה, והשפה התחתונה מרפדת את הקנה.'},
+        {q:'הצליל חורק. מה סביר ביותר?',o:['לחיצה חזקה מדי בשפה','יותר מדי אוויר','פייה ארוכה מדי'],a:0,w:'לחץ מוגזם סוגר את הקנה וגורם לחריקה.'}]},
+
+{ t:'הצליל הראשון', min:15, html:()=>`
+  <div class="goal"><b>מטרת השלב:</b> להפיק צליל יציב על הסקסופון כולו, לפחות 5–8 שניות.</div>
+  <div class="card"><h3>איך מתחילים</h3><ol>
+    <li>הרכיבי הכול וקחי אחיזה נכונה (שלב 4).</li>
+    <li>הניחי אצבעות לסול (שמאל: 1-2-3) ושמרי על פה כמו בשלב 5.</li>
+    <li>שאפי מהפה ונשפי באוויר חם ויציב כאילו אומרת "טו…" — הלשון נוגעת בקצה הקנה ונעלמת.</li></ol>
+    <div class="tip">לשון רכה: את "הכרית" של הלשון נוגעת בקצה הקנה, לא בקשיחות. הלשון מתחילה את הצליל, האוויר ממשיך אותו.</div></div>
+  <div class="card"><h3>⏱ מדידת צליל ארוך</h3>
+    <p>נגני "סול" ולחצי "התחלתי לנגן" ברגע שהצליל יוצא. לחצי "סיימתי" כשהצליל נשבר או כשנגמר האוויר. מטרה: 8 שניות.</p>
+    <div class="timer-big" id="tval">0.0</div>
+    <div class="bar-goal"><i id="tbar"></i></div>
+    <div class="row"><button class="btn alt" id="tstart">התחלתי לנגן</button><button class="btn ghost" id="tstop">סיימתי</button><button class="btn ghost" id="tref">שמעי צליל סול (הדמיה)</button></div>
+    <p class="score" id="tbest"></p></div>
+  <div class="card"><h3>פתרון בעיות</h3><table>
+    <tr><th>בעיה</th><th>סיבה סבירה</th><th>מה לנסות</th></tr>
+    <tr><td>אין צליל</td><td>קנה לא מיושר, יותר מדי/פחות מדי פה בפייה, אוויר חלש</td><td>לבדוק יישור, להרטיב קנה, לנשוף חם ויציב</td></tr>
+    <tr><td>חריקה</td><td>לחיצה, זווית לא נכונה</td><td>להרפות שפה, להרחיק קצת את הפייה</td></tr>
+    <tr><td>צליל "אוורירי"</td><td>אצבעות לא סוגרות מפתחות</td><td>לוודא שכל כרית מכוסה בבסיס האצבע</td></tr></table></div>
+  <div class="card"><h3>🎬 סרטונים</h3>${videoGrid(VIDEOS.first)}</div>`,
+  init:(root)=>{
+    let t0=0, raf=0; const val=$('#tval',root), bar=$('#tbar',root), best=$('#tbest',root);
+    const showBest=()=>best.textContent=STATE.best?`השיא שלך: ${STATE.best.toFixed(1)} שניות`:'';
+    showBest();
+    const tick=()=>{const s=(performance.now()-t0)/1000;val.textContent=s.toFixed(1);bar.style.width=Math.min(100,s/8*100)+'%';raf=requestAnimationFrame(tick);};
+    $('#tstart',root).onclick=()=>{cancelAnimationFrame(raf);t0=performance.now();tick();};
+    $('#tstop',root).onclick=()=>{cancelAnimationFrame(raf);if(!t0)return;const s=(performance.now()-t0)/1000;t0=0;if(s>STATE.best&&s<120){STATE.best=s;save();}showBest();};
+    $('#tref',root).onclick=()=>playNote('G',2.5);
+    window.__cleanup=()=>cancelAnimationFrame(raf);
+  },
+  quiz:[{q:'מה הלשון עושה בהתחלת צליל?',o:['נוגעת קלות בקצה הקנה ונעלמת','לוחצת חזק','נשארת במקום'],a:0,w:'מגע קל, כמו אומרים "טו". הלשון מתחילה, האוויר ממשיך.'}]},
+
+{ t:'שלושת הצלילים הראשונים', min:25, html:()=>`
+  <div class="goal"><b>מטרת השלב:</b> לנגן <b>סי · לה · סול</b> בצליל יציב ולזהות את האצבעות.</div>
+  <div class="card"><h3>🎹 מפת האצבעות</h3>
+    <p>הקישי על צליל כדי לראות אצבעות ולשמוע (הדמיה). עיגול מלא = להוריד את האצבע על המפתח; ריק = אצבע באוויר. בדיאגרמה למעלה יד שמאל, למטה יד ימין.</p>
+    <div class="notes-row" id="nrow"></div>
+    <div class="fing-big" id="fbig"></div>
+    <div class="tip">באלט הצליל שנשמע נמוך בערך שישית מהתו הכתוב (זה סקסופון Eb). אל תתבלבלי: את לומדת לפי האצבעות והשם הכתוב. כשמנגנים ביחד עם פסנתר או הקלטה, מורה יתאים את הקטעים. צלילי ההדגמה באתר כבר מוזזים בהתאם.</div></div>
+  <div class="card"><h3>✔ תרגילים</h3>${checklist('s7a',['סי: אצבע 1 שמאל בלבד. 5 שניות × 5.','לה: שמאל 1+2. 5 שניות × 5.','סול: שמאל 1+2+3. 5 שניות × 5.','סי-לה-סול ובחזרה, צליל ארוך לכל אחד, בלי להפסיק לנשוף.'])}</div>
+  <div class="card"><h3>🎯 משחק זיהוי</h3>
+    <div data-game="GAB"><div class="row"><button class="btn ghost" data-mode="fing">אצבעות ← שם</button><button class="btn ghost" data-mode="staff">חמשה ← שם</button></div>
+    <div class="game-q"><div class="visual"></div><div class="opts"></div></div><p class="score"></p></div></div>
+  <div class="card"><h3>🎬 סרטונים</h3>${videoGrid(VIDEOS.notes)}</div>`,
+  init:(root)=>{
+    const row=$('#nrow',root), big=$('#fbig',root);
+    const pick=n=>{ $$('.notebtn',row).forEach(b=>b.classList.toggle('on',b.dataset.n===n));
+      big.innerHTML=`${fingerSVG(n,110,true)}<div><div class="nm">${n}</div><div class="he">${NOTES[n].he}</div><div class="staffwrap">${staffSVG(n)}</div></div>`; playNote(n,1.2); };
+    row.innerHTML=['B','A','G'].map(n=>`<button class="notebtn" data-n="${n}">${n}<small>${NOTES[n].he}</small></button>`).join('');
+    $$('.notebtn',row).forEach(b=>b.onclick=()=>pick(b.dataset.n));
+    big.innerHTML=`${fingerSVG('G',110,true)}<div><div class="nm">G</div><div class="he">${NOTES.G.he}</div><div class="staffwrap">${staffSVG('G')}</div></div>`;
+    fingeringGame(root);
+  },
+  quiz:[{q:'איזה צליל נגן עם אצבע 1 שמאל בלבד?',o:['סול','לה','סי'],a:2,w:'סי: אצבע 1. לה: 1+2. סול: 1+2+3.'},
+        {q:'כמה אצבעות יד שמאל בצליל סול?',o:['אחת','שתיים','שלוש'],a:2,w:'סול = שלוש אצבעות יד שמאל.'}]},
+
+{ t:'קוראים בלי תווים', min:25, html:()=>`
+  <div class="goal"><b>מטרת השלב:</b> להכיר את החמשה, איך תו מסמן גובה, ואיך הדגשים מציינים משך. מתחילים בבסיס — בלי ללמוד תיאוריה כבדה.</div>
+  <div class="card"><h3>החמשה</h3>
+    <p>חמשה היא חמישה קווים. ככל שהתו גבוה יותר — הצליל גבוה יותר. הקו השני מלמטה הוא <b>סול</b> (מסומן באדום; זה בדיוק מה ש״מפתח סול״ הרגיל מסמן). משם סופרים צעד-צעד למעלה ולמטה.</p>
+    <div class="staffwrap" id="staffall"></div><p class="score">הקישי על תו לשמיעה ולצפייה באצבעות.</p>
+    <div class="fing-big" id="staffinfo"></div></div>
+  <div class="card"><h3>משך: כמה זמן מחזיקים</h3>
+    <div class="dur">
+      <div><b>פעימה אחת</b><div class="beatbar"><i></i></div><small>רבע — בכרטיסים: "1"</small></div>
+      <div><b>שתי פעימות</b><div class="beatbar"><i></i><i></i></div><small>חצי</small></div>
+      <div><b>ארבע פעימות</b><div class="beatbar"><i></i><i></i><i></i><i></i></div><small>שלם</small></div></div>
+    <p>בשירים שבשלב הבא כל כרטיס מציג את שם הצליל, האצבעות ומשך הפעימות. קו אנכי דק מפריד "תיבות" (קבוצות של 4 פעימות).</p></div>
+  <div class="card"><h3>🥁 מטרונום</h3>
+    <p>המטרונום עוזר לשמור על קצב קבוע. התחילי איטי, 60 פעימות בדקה.</p>
+    <div class="tempo"><button class="btn alt" id="mstart">▶ התחילי</button><button class="btn ghost" id="mstop">■ עצרי</button>
+    <label>קצב: <input type="range" id="mbpm" min="40" max="140" value="60"> <span id="mbv">60</span></label></div>
+    <p class="score">תרגיל: נגני סול ארוך ל-4 פעימות, הפסקה של פעימה, סי ל-4, וכן הלאה.</p></div>`,
+  init:(root)=>{
+    const all=$('#staffall',root), info=$('#staffinfo',root);
+    const show=n=>{ all.innerHTML=staffSVG(n,true); bind();
+      info.innerHTML=`${fingerSVG(n,90,true)}<div><div class="nm">${n}</div><div class="he">${NOTES[n].he}</div></div>`; playNote(n,1); };
+    const bind=()=>$$('[data-staffnote]',all).forEach(g=>g.onclick=()=>show(g.dataset.staffnote));
+    all.innerHTML=staffSVG('G',true); bind();
+    let iv=null; const bpm=$('#mbpm',root), bv=$('#mbv',root);
+    const stop=()=>{clearInterval(iv);iv=null;};
+    bpm.oninput=()=>{bv.textContent=bpm.value; if(iv){stop();start();}};
+    function start(){ let c=0; ctx(); click(true); c=1; iv=setInterval(()=>{click(c%4===0);c++;},60000/+bpm.value); }
+    $('#mstart',root).onclick=()=>{stop();start();}; $('#mstop',root).onclick=stop;
+    window.__cleanup=stop;
+  },
+  quiz:[{q:'ככל שהתו גבוה על החמשה…',o:['הצליל נמוך יותר','הצליל גבוה יותר','אין קשר'],a:1,w:'גובה התו על החמשה = גובה הצליל.'},
+        {q:'כרטיס עם "2 פעימות" אומר:',o:['להחזיק את הצליל שתי פעימות','לנגן אותו פעמיים','לדלג'],a:0,w:'מספר הפעימות הוא משך ההחזקה.'}]},
+
+{ t:'השירים הראשונים', min:30, html:()=>`
+  <div class="goal"><b>מטרת השלב:</b> לנגן שלושה שירים קצרים עם צלילי סי-לה-סול ובקצב קבוע, ולהתחיל צלילים בעדינות עם הלשון.</div>
+  <div class="card"><h3>הלשון: "טה טה טה"</h3>
+    <p>הניחי סול, נשפי בלי הפסקה, והוסיפי "טה" עדין בלשון בכל פעימה. האוויר זורם, הלשון רק "מקצצת" אותו לחתיכות.</p>
+    ${checklist('s9a',['סול × 4 פעימות, "טה" בכל פעימה (60 לדקה).','סי-לה-סול, "טה" בכל צליל.','להאזין שהצלילים לא "נקטעים" על ידי הפסקת אוויר.'])}</div>
+  ${songPlayer('hot')}${songPlayer('mary')}${songPlayer('clair')}
+  <div class="tip">אל תרצי להגיע מהר לקצב מהיר. שיר שנגן נקי ב-60 עדיף על שיר מבולגן ב-100.</div>`,
+  init:(root)=>wireSong(root),
+  quiz:[{q:'מה תפקיד הלשון בנגינה?',o:['לפתוח את הצליל ולהתחיל אותו','להחליף את האוויר','לסגור את המפתחות'],a:0,w:'הלשון מתחילה את הצליל; האוויר מחזיק אותו.'}]},
+
+{ t:'מרחיבות טווח', min:30, html:()=>`
+  <div class="goal"><b>מטרת השלב:</b> להוסיף את הצליל <b>דו</b> ואת הצלילים הנמוכים <b>פה, מי, רה</b>, ולנגן סולם קצר.</div>
+  <div class="card"><h3>הצלילים החדשים</h3><div class="notes-row" id="nrow2"></div><div class="fing-big" id="fbig2"></div>
+    <div class="tip">לצלילים הנמוכים (פה, מי, רה) משלבים את יד ימין. האצבעות של יד שמאל נשארות על סול. רה = כל ששת האצבעות.</div></div>
+  <div class="card"><h3>🎯 משחק זיהוי מורחב</h3>
+    <div data-game="DEFGABC"><div class="row"><button class="btn ghost" data-mode="fing">אצבעות ← שם</button><button class="btn ghost" data-mode="staff">חמשה ← שם</button></div>
+    <div class="game-q"><div class="visual"></div><div class="opts"></div></div><p class="score"></p></div></div>
+  ${songPlayer('scale')}${songPlayer('low')}${songPlayer('all')}
+  <div class="card"><h3>🎬 סרטונים</h3>${videoGrid(VIDEOS.more)}</div>`,
+  init:(root)=>{
+    const row=$('#nrow2',root), big=$('#fbig2',root);
+    const show=n=>{ $$('.notebtn',row).forEach(b=>b.classList.toggle('on',b.dataset.n===n)); big.innerHTML=`${fingerSVG(n,110,true)}<div><div class="nm">${n}</div><div class="he">${NOTES[n].he}</div>${staffSVG(n)}</div>`; playNote(n,1.2); };
+    row.innerHTML=['C','F','E','D'].map(n=>`<button class="notebtn" data-n="${n}">${n}<small>${NOTES[n].he}</small></button>`).join('');
+    $$('.notebtn',row).forEach(b=>b.onclick=()=>show(b.dataset.n));
+    big.innerHTML=`${fingerSVG('C',110,true)}<div><div class="nm">C</div><div class="he">${NOTES.C.he}</div>${staffSVG('C')}</div>`;
+    wireSong(root); fingeringGame(root);
+  },
+  quiz:[{q:'דו מנוגן באצבע…',o:['2 שמאל בלבד','1+2+3 שמאל','כל שש האצבעות'],a:0,w:'דו = אצבע 2 של יד שמאל בלבד.'},
+        {q:'איזה צליל דורש את כל ששת האצבעות?',o:['סול','רה','סי'],a:1,w:'רה = שלוש שמאל + שלוש ימין.'}]},
+
+{ t:'תוכנית תרגול ופתרון בעיות', min:15, html:()=>`
+  <div class="goal"><b>מטרת השלב:</b> להפוך את זה לשגרה ולדעת איך ממשיכים.</div>
+  <div class="card"><h3>תוכנית שבועית (20 דקות ביום)</h3><table>
+    <tr><th>דקות</th><th>מה</th></tr>
+    <tr><td>3</td><td>נשימה + פייה לבד</td></tr>
+    <tr><td>5</td><td>צלילים ארוכים (סי, לה, סול ואחרי שבועיים גם דו ורה)</td></tr>
+    <tr><td>7</td><td>שירים וסולם עם מטרונום</td></tr>
+    <tr><td>3</td><td>ניקוי, פירוק, ושמירה</td></tr></table>
+    <p>כל שבוע: להעלות את הקצב ב-4–6 פעימות בדקה אם הנגינה נקייה.</p></div>
+  <div class="card"><h3>שאלות שחוזרות</h3><ul>
+    <li><b>כמה זמן יקח עד שזה ישמע טוב?</b> בדרך כלל כמה שבועות של תרגול קבוע כדי לשמוע צליל יציב; השאר דורש זמן.</li>
+    <li><b>אסור להגזים:</b> הפסקה כל 10–15 דקות בהתחלה, שמירה על השפתיים והשיניים.</li>
+    <li><b>קריאת תווים:</b> כשתרגישי בנוח, תרגלי קריאת 7 הצלילים שלמדת על החמשה (שלב 8) ורק אז הרחיבי.</li></ul></div>
+  <div class="card"><h3>מה הלאה</h3><ul>
+    <li>סולם דו מז'ורי ושירים מוכרים.</li>
+    <li>שיעורים עם מורה, ולו חודש ראשון, לתיקון פיה ואצבעות.</li>
+    <li>ספר מתחילים לאלט וקבצי ליווי בקצב איטי.</li></ul>
+    <div class="tip">סיימת? ✔ בכל שלב מסמנים "סיימתי". כל הכבוד! 🎷</div></div>`,
+  quiz:[{q:'מה עדיף?',o:['20 דקות כל יום','3 שעות פעם בשבוע','לא לתרגל'],a:0,w:'תרגול קצר ומתמיד עדיף.'}]},
+];
+
+/* ============ ראוטר ============ */
+let cur=0;
+function render(n){
+  if(window.__cleanup){try{window.__cleanup();}catch(e){} window.__cleanup=null;}
+  stopAll(); cur=n; const S=STAGES[n], root=$('#stage');
+  root.innerHTML=`<h2 class="stage-title">שלב ${n+1}: ${S.t}</h2>
+    <div class="meta"><span class="pill">⏱ כ-${S.min} דקות</span><span class="pill teal">${n+1} מתוך ${STAGES.length}</span></div>
+    ${S.html()}${S.quiz?quiz('q'+n,S.quiz):''}
+    <div class="stage-foot"><button class="btn ghost" id="prev" ${n===0?'disabled':''}>→ הקודם</button>
+    <button class="btn alt" id="done">${STATE.done[n]?'✔ סימנתי כהושלם (לחצי לבטל)':'סיימתי את השלב ✔'}</button>
+    <button class="btn" id="next" ${n===STAGES.length-1?'disabled':''}>הבא ←</button></div>`;
+  $$('[data-chk]',root).forEach(i=>{i.checked=!!STATE.checks[i.dataset.chk];i.onchange=()=>{STATE.checks[i.dataset.chk]=i.checked;save();};});
+  S.init&&S.init(root); S.quiz&&wireQuiz(root,'q'+n,S.quiz);
+  $('#prev',root).onclick=()=>go(n-1); $('#next',root).onclick=()=>go(n+1);
+  $('#done',root).onclick=()=>{STATE.done[n]=!STATE.done[n];save();refreshNav();render(n);};
+  refreshNav(); history.replaceState(null,'','#'+(n+1)); window.scrollTo({top:0});
+}
+const go=n=>{ if(n>=0&&n<STAGES.length) render(n); };
+function refreshNav(){
+  $('#nav').innerHTML=STAGES.map((s,i)=>`<button class="${i===cur?'on':''} ${STATE.done[i]?'done':''}" data-s="${i}">${i+1}. ${s.t}</button>`).join('');
+  $$('#nav button').forEach(b=>b.onclick=()=>go(+b.dataset.s));
+  const d=Object.values(STATE.done).filter(Boolean).length;
+  $('#pbar').style.width=(d/STAGES.length*100)+'%';
+  const on=$('#nav .on'); on&&on.scrollIntoView({inline:'center',block:'nearest'});
+}
+document.addEventListener('click',e=>{
+  const f=e.target.closest('[data-vid]'); if(!f||f.querySelector('iframe')) return;
+  f.style.backgroundImage='none'; f.classList.add('playing');
+  f.innerHTML=`<iframe src="https://www.youtube-nocookie.com/embed/${f.dataset.vid}?autoplay=1&rel=0" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen title="סרטון"></iframe>`;
+  f.style.setProperty('--x','1'); f.setAttribute('data-playing','1');
+});
+document.addEventListener('keydown',e=>{ if((e.key==='Enter'||e.key===' ')&&e.target.matches('[data-vid]')){e.preventDefault();e.target.click();} });
+const h=parseInt((location.hash||'').slice(1),10);
+render(h>=1&&h<=STAGES.length?h-1:0);
+</script>
+</body>
+</html>
